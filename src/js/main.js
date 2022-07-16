@@ -1,28 +1,49 @@
 'use strict';
 
-console.log('>> Ready :)');
-
 const ul = document.querySelector('.js-ul');
-let animeData = [];
+const inputTitle = document.querySelector('.js-inputTitle');
+const searchButton = document.querySelector('.js-searchButton');
+const SERVER_URL = 'https://api.jikan.moe/v4/anime?q=';
+const defaultImg =
+  'https://cdn.myanimelist.net/img/sp/icon/apple-touch-icon-256.png';
+const customizedDefaultImg =
+  'https://via.placeholder.com/210x295/ffffff/666666/?text=TV';
+let animeList = [];
 
-const renderAnimeData = () => {
-  let html = '';
-  for (const anime of animeData) {
-    html += `<li><article><img src='${anime.images.jpg.image_url}'/>`;
-    html += `<h2>${anime.title}</h2>`;
-    html += `</article></li>`;
-    console.log(anime.images.jpg.image_url);
+function createAnimeHTML(anime) {
+  let animeHtml = '';
+  const isImageDefault = anime.images.jpg.image_url.includes(defaultImg);
+  if (isImageDefault) {
+    animeHtml += `<li><div class='js-card'><img src='${customizedDefaultImg}' alt='Este anime no tiene portada'/>`;
+  } else {
+    animeHtml += `<li><div class='js-card'><img src='${anime.images.jpg.image_url}' alt='Portada del anime que has buscado' title='Image Anime'/>`;
   }
-  ul.innerHTML = html;
+  animeHtml += `<h2>${anime.title}`;
+  animeHtml += `</div></h2></li>`;
+  return animeHtml;
+}
+
+const renderAnimes = () => {
+  let globalHtml = '';
+  for (const anime of animeList) {
+    globalHtml += createAnimeHTML(anime);
+  }
+  ul.innerHTML = globalHtml;
 };
 
-const getApi = () => {
-  fetch('https://api.jikan.moe/v4/anime?q=naruto')
+const getAnimeDataByTitle = (titleValue) => {
+  fetch(`${SERVER_URL}${titleValue}`)
     .then((response) => response.json())
     .then((dataAnime) => {
-      animeData = dataAnime.data;
-      renderAnimeData();
+      animeList = dataAnime.data;
+      renderAnimes();
     });
 };
 
-getApi();
+const handleClick = (event) => {
+  event.preventDefault();
+  const titleValue = inputTitle.value;
+  getAnimeDataByTitle(titleValue);
+};
+
+searchButton.addEventListener('click', handleClick);
