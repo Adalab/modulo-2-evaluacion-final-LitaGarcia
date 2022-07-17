@@ -45,7 +45,7 @@ const renderAnimes = () => {
   ul.innerHTML = globalHtml;
 };
 // Select and render favorites
-const renderfavoriteAnimes = () => {
+const renderFavoriteAnimes = () => {
   let globalHtml = '';
   favoriteAnimeList.forEach((anime) => (globalHtml += createAnimeHTML(anime)));
   ulFavs.innerHTML = globalHtml;
@@ -57,13 +57,22 @@ function addAnimeToFav(animeIdSelected) {
   );
   if (!favoriteAnimeList.includes(animeSelected)) {
     favoriteAnimeList.push(animeSelected);
-    renderfavoriteAnimes();
+    renderFavoriteAnimes();
   }
 }
+
+// Add into LocalStorage
+
+const addToLocalStorage = () => {
+  localStorage.setItem('favoritesAnimes', JSON.stringify(favoriteAnimeList));
+};
+
+//END
 
 const handlefavoriteClick = (event) => {
   const animeIdSelected = parseInt(event.currentTarget.id);
   addAnimeToFav(animeIdSelected);
+  addToLocalStorage();
 };
 
 const addEventListenerToAnimeCards = () => {
@@ -91,3 +100,17 @@ const handleClick = (event) => {
 };
 
 searchButton.addEventListener('click', handleClick);
+
+//
+
+// Get LS
+
+const getLocalStorage = () => {
+  const localStorageData = JSON.parse(localStorage.getItem('favoritesAnimes'));
+  if (localStorageData) {
+    favoriteAnimeList = localStorageData;
+    renderFavoriteAnimes();
+  }
+};
+
+getLocalStorage();
