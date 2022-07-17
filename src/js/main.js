@@ -17,7 +17,7 @@ let favoriteAnimeList = [];
 
 const createAnimeCardHtml = (animeTitle, animeId, imageUrl) => {
   let animeHtml = `<li><div class='js-card' id='${animeId}' style="cursor:pointer"><img src='${imageUrl}' alt='Portada del anime que has buscado' title='Anime Image'/>`;
-  animeHtml += `<h2>${animeTitle}`;
+  animeHtml += `<h2 class='card'>${animeTitle}`;
   animeHtml += `</div></h2></li>`;
   return animeHtml;
 };
@@ -51,28 +51,31 @@ const renderFavoriteAnimes = () => {
   ulFavs.innerHTML = globalHtml;
 };
 
-function addAnimeToFav(animeIdSelected) {
-  const animeSelected = animeList.find(
-    (anime) => animeIdSelected === anime.mal_id
-  );
-  if (!favoriteAnimeList.includes(animeSelected)) {
-    favoriteAnimeList.push(animeSelected);
-    renderFavoriteAnimes();
-  }
-}
-
 // Add into LocalStorage
 
 const addToLocalStorage = () => {
   localStorage.setItem('favoritesAnimes', JSON.stringify(favoriteAnimeList));
 };
 
+function addAnimeToFav(animeIdSelected) {
+  const animeSelected = animeList.find(
+    (anime) => animeIdSelected === anime.mal_id
+  );
+  const favoriteFound = favoriteAnimeList.findIndex(
+    (favAnime) => favAnime.mal_id === animeSelected.mal_id
+  );
+  if (favoriteFound === -1) {
+    favoriteAnimeList.push(animeSelected);
+    addToLocalStorage();
+    renderFavoriteAnimes();
+  }
+}
+
 //END
 
 const handlefavoriteClick = (event) => {
   const animeIdSelected = parseInt(event.currentTarget.id);
   addAnimeToFav(animeIdSelected);
-  addToLocalStorage();
 };
 
 const addEventListenerToAnimeCards = () => {
@@ -114,3 +117,21 @@ const getLocalStorage = () => {
 };
 
 getLocalStorage();
+
+// ENTER key
+const handleKeyDown = (event) => {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    searchButton.click();
+  }
+};
+
+inputTitle.addEventListener('keydown', handleKeyDown);
+
+//clean Results
+const resetButton = document.querySelector('.js-resetButton');
+const handleClickReset = () => {
+  animeList = [];
+  renderAnimes();
+};
+resetButton.addEventListener('click', handleClickReset);

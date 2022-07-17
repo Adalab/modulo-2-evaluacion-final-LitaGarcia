@@ -1,11 +1,14 @@
-<h1>Buscador de Series de Anime</h1>
-<form action="">
-  <h2>Resultados</h2>
-  <input type="text" class="js-inputTitle" />
-  <button type="button" class="js-searchButton">Buscar</button>
-</form>
-<nav>
-  <ul class="js-ul"></ul>
-</nav>
-<h2>Series favoritas</h2>
-<nav class="js-ulFavs"></nav>
+<main class="main">
+  <section class="main__result">
+    <nav>
+      <ul class="js-ul"></ul>
+    </nav>
+  </section>
+  <aside class="main__result--favorites">
+    <h2>Series favoritas</h2>
+    <nav>
+      <ul class="js-ulFavs card"></ul>
+      <button class="js-removeFavs main__button--remove"></button>
+    </nav>
+  </aside>
+</main>
