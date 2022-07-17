@@ -22,6 +22,18 @@ const createAnimeCardHtml = (animeTitle, animeId, imageUrl) => {
   return animeHtml;
 };
 
+const createAnimeFavCardHtml = (anime) => {
+  const animeCardHtml = createAnimeCardHtml(
+    anime.title,
+    anime.mal_id,
+    anime.images.jpg.image_url
+  );
+  const animeFavCard =
+    animeCardHtml +
+    `<button class="js-removeFavs main__button--remove">x</button>`;
+  return animeFavCard;
+};
+
 const createAnimeHTML = (anime) => {
   let animeHtml = '';
   const animeImageUrl = anime.images.jpg.image_url;
@@ -41,13 +53,18 @@ const createAnimeHTML = (anime) => {
 
 const renderAnimes = () => {
   let globalHtml = '';
+
   animeList.forEach((anime) => (globalHtml += createAnimeHTML(anime)));
   ul.innerHTML = globalHtml;
 };
+
 // Select and render favorites
+
 const renderFavoriteAnimes = () => {
   let globalHtml = '';
-  favoriteAnimeList.forEach((anime) => (globalHtml += createAnimeHTML(anime)));
+  favoriteAnimeList.forEach((anime) => {
+    globalHtml += createAnimeFavCardHtml(anime);
+  });
   ulFavs.innerHTML = globalHtml;
 };
 
@@ -68,6 +85,10 @@ function addAnimeToFav(animeIdSelected) {
     favoriteAnimeList.push(animeSelected);
     addToLocalStorage();
     renderFavoriteAnimes();
+  } else {
+    favoriteAnimeList.splice(favoriteFound, 1);
+    addToLocalStorage();
+    renderFavoriteAnimes();
   }
 }
 
@@ -84,6 +105,7 @@ const addEventListenerToAnimeCards = () => {
     anime.addEventListener('click', handlefavoriteClick)
   );
 };
+
 // END Select and render favorites
 
 const getAnimeDataByTitle = (titleValue) => {
@@ -103,8 +125,6 @@ const handleClick = (event) => {
 };
 
 searchButton.addEventListener('click', handleClick);
-
-//
 
 // Get LS
 
@@ -135,3 +155,13 @@ const handleClickReset = () => {
   renderAnimes();
 };
 resetButton.addEventListener('click', handleClickReset);
+
+//clean OneAnimeFav
+
+// const removeFavButton = document.querySelector('.js-removeFavs');
+
+// const handleClickRemoveFav = () => {
+//   addEventListenerToAnimeCards();
+// };
+
+// removeFavButton.addEventListener('click', handleClickRemoveFav);
