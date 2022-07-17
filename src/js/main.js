@@ -11,7 +11,7 @@ const customizedDefaultImg =
 const ulFavs = document.querySelector('.js-ulFavs');
 
 let animeList = [];
-let favouriteAnimeList = [];
+let favoriteAnimeList = [];
 
 // Search Animes and render them
 
@@ -44,10 +44,10 @@ const renderAnimes = () => {
   animeList.forEach((anime) => (globalHtml += createAnimeHTML(anime)));
   ul.innerHTML = globalHtml;
 };
-// Select and render favourites
-const renderFavouriteAnimes = () => {
+// Select and render favorites
+const renderfavoriteAnimes = () => {
   let globalHtml = '';
-  favouriteAnimeList.forEach((anime) => (globalHtml += createAnimeHTML(anime)));
+  favoriteAnimeList.forEach((anime) => (globalHtml += createAnimeHTML(anime)));
   ulFavs.innerHTML = globalHtml;
 };
 
@@ -55,13 +55,13 @@ function addAnimeToFav(animeIdSelected) {
   const animeSelected = animeList.find(
     (anime) => animeIdSelected === anime.mal_id
   );
-  if (!favouriteAnimeList.includes(animeSelected)) {
-    favouriteAnimeList.push(animeSelected);
-    renderFavouriteAnimes();
+  if (!favoriteAnimeList.includes(animeSelected)) {
+    favoriteAnimeList.push(animeSelected);
+    renderfavoriteAnimes();
   }
 }
 
-const handleFavouriteClick = (event) => {
+const handlefavoriteClick = (event) => {
   const animeIdSelected = parseInt(event.currentTarget.id);
   addAnimeToFav(animeIdSelected);
 };
@@ -69,10 +69,10 @@ const handleFavouriteClick = (event) => {
 const addEventListenerToAnimeCards = () => {
   const animeCards = document.querySelectorAll('.js-card');
   animeCards.forEach((anime) =>
-    anime.addEventListener('click', handleFavouriteClick)
+    anime.addEventListener('click', handlefavoriteClick)
   );
 };
-// END Select and render favourites
+// END Select and render favorites
 
 const getAnimeDataByTitle = (titleValue) => {
   fetch(`${SERVER_URL}${titleValue}`)
