@@ -137,11 +137,21 @@ function addEventListenerToAnimeCards() {
 }
 
 // END Select and render favorites
+const createNewElement = () => {
+  const parragraphElement = document.createElement('p');
+  const text = document.createTextNode(
+    'No se ha encontrado ningún anime con ese nombre :('
+  );
+  parragraphElement.appendChild(text);
+};
 
 const getAnimeDataByTitle = (titleValue) => {
   fetch(`${SERVER_URL}${titleValue}`)
     .then((response) => response.json())
     .then((dataAnime) => {
+      if (dataAnime.data.length === 0) {
+        createNewElement();
+      }
       animeList = dataAnime.data;
       renderAnimes();
     });
