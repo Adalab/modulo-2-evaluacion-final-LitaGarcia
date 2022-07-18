@@ -9,16 +9,35 @@
   </head>
 
   <body>
-    <div class="page">
-      <h1>Buscador de Series de Anime</h1>
-      <form action="">
-        <input type="text" class="js-inputName" />
-        <button type="button" class="js-searchButton">Buscar</button>
+    <header class="header">
+      <h1 class="header__title">Buscador de Series de Anime</h1>
+      <form class="">
+        <input type="text" class="js-inputTitle" />
+        <input type="submit" class="js-searchButton" value="Enviar" />
+        <button type="button" class="js-resetButton">Borrar resultados</button>
       </form>
-      <nav>
-        <ul class="js-ul"></ul>
-      </nav>
-    </div>
+    </header>
+
+    <main class="main">
+      <section class="main__result">
+        <h2 class="main__result--title">Resultados</h2>
+        <nav class="nav">
+          <ul class="js-ul nav__ul"></ul>
+        </nav>
+      </section>
+      <section class="main__favorites">
+        <h2 class="main__favorites--title">Series favoritas</h2>
+        <nav class="nav">
+          <ul class="js-ulFavs nav__ul""></ul>
+          <button style="cursor:pointer"  class="js-resetFavs buttonResetAll">      <span></span>
+            <span></span>
+            <span></span>
+            <span></span>Borrar favoritos</button>
+        </sec>
+        </nav>
+
+    </main>
+
     <script src="./assets/js/main.js"></script>
   </body>
 </html>
