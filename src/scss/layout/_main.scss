@@ -1,0 +1,10 @@
+.main {
+  display: flex;
+  flex-direction: row-reverse;
+  width: 100%;
+  &__result {
+    width: 50%;
+  }
+  &__favorites {
+  }
+}

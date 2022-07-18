@@ -12,20 +12,17 @@ const ulFavs = document.querySelector('.js-ulFavs');
 
 let animeList = [];
 let favoriteAnimeList = [];
-
-const removeFavButton = document.querySelector('.js-removeFavs');
-
 // Search Animes and render them
 
 const createAnimeCardHtml = (animeTitle, animeId, imageUrl) => {
   let animeHtml = `<li><div class='js-card' id='${animeId}' style="cursor:pointer"><img src='${imageUrl}' alt='Portada del anime que has buscado' title='Anime Image'/>`;
   animeHtml += `<h2 class='card'>${animeTitle}`;
   animeHtml += `</div></h2></li>`;
+
   return animeHtml;
 };
 
 const createAnimeFavCardHtml = (anime) => {
-  console.log(anime);
   const animeCardHtml = createAnimeCardHtml(
     anime.title,
     anime.mal_id,
@@ -50,24 +47,23 @@ const createAnimeHTML = (anime) => {
   } else {
     animeHtml += createAnimeCardHtml(anime.title, anime.mal_id, animeImageUrl);
   }
-
   return animeHtml;
 };
 
 const renderAnimes = () => {
   let globalHtml = '';
-
   animeList.forEach((anime) => (globalHtml += createAnimeHTML(anime)));
   ul.innerHTML = globalHtml;
 };
 
 // Select and render favorites
 const addEventListenertoFavs = () => {
-  const animeCards = document.querySelectorAll('.js-removeFavs');
-  animeCards.forEach((anime) =>
+  const buttonFavs = document.querySelectorAll('.js-removeFavs');
+  buttonFavs.forEach((anime) =>
     anime.addEventListener('click', removeAnimeFromFav)
   );
 };
+
 const renderFavoriteAnimes = () => {
   let globalHtml = '';
   favoriteAnimeList.forEach((anime) => {
@@ -84,27 +80,25 @@ const addToLocalStorage = () => {
 };
 
 const addAnimeToFav = (animeIdSelected) => {
-  console.log(animeIdSelected);
   const animeSelected = animeList.find(
     (anime) => animeIdSelected === anime.mal_id
   );
   const favoriteFound = favoriteAnimeList.findIndex(
     (favAnime) => favAnime.mal_id === animeSelected.mal_id
   );
-  console.log(animeSelected);
   if (favoriteFound === -1) {
     favoriteAnimeList.push(animeSelected);
     addToLocalStorage();
     renderFavoriteAnimes();
   }
 };
+
 function removeAnimeFromFav(event) {
   const buttonSelected = parseInt(event.currentTarget.dataset.id);
   const buttonFavSelected = favoriteAnimeList.findIndex(
     (favAnime) => favAnime.mal_id === buttonSelected
   );
   favoriteAnimeList.splice(buttonFavSelected, 1);
-  console.log(favoriteAnimeList);
   addToLocalStorage();
   renderFavoriteAnimes();
 }
@@ -162,21 +156,6 @@ const handleClickReset = () => {
   renderAnimes();
 };
 resetButton.addEventListener('click', handleClickReset);
-
-//clean OneAnimeFav
-
-// const handleClickRemoveFav = (event) => {
-//   const animeIdFavSelected = parseInt(event.currentTarget.dataset.id);
-//   console.log(event.currentTarget.dataset.id);
-//   addOrRemoveAnimeToFav(favoriteAnimeList, animeIdFavSelected);
-// };
-
-// removeFavButton.addEventListener('click', handleClickRemoveFav);
-
-// que funcion tiene realmente el includes? solo busca strings? no me funcionaba con find
-// Partials... los necesito
-// es un aside.. es un artivle...?
-// logica para decirle.. "eh el anime que buscas no existe!"
 
 // Reset ALL Favs
 
