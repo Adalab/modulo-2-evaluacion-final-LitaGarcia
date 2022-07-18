@@ -15,8 +15,8 @@ let favoriteAnimeList = [];
 // Search Animes and render them
 
 const createAnimeCardHtml = (animeTitle, animeId, imageUrl) => {
-  let animeHtml = `<li><div class='js-card' id='${animeId}' style="cursor:pointer"><img src='${imageUrl}' alt='Portada del anime que has buscado' title='Anime Image'/>`;
-  animeHtml += `<h2 class='card'>${animeTitle}`;
+  let animeHtml = `<li class='cards'><div class='js-card' id='${animeId}' style="cursor:pointer"><img src='${imageUrl}' alt='Portada del anime que has buscado' title='Anime Image'/>`;
+  animeHtml += `<h2>${animeTitle}`;
   animeHtml += `</div></h2>`;
   return animeHtml;
 };
@@ -29,7 +29,7 @@ const createAnimeFavCardHtml = (anime) => {
   );
   const animeFavCard =
     animeCardHtml +
-    `<button class="js-removeFavs data-id=${anime.mal_id} main__button--remove">x</button></li>`;
+    `<button style="cursor:pointer" class="js-removeFavs data-id=${anime.mal_id} buttonRemoveOne"></button></li>`;
   return animeFavCard;
 };
 

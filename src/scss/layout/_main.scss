@@ -1,10 +1,31 @@
 .main {
   display: flex;
   flex-direction: row-reverse;
-  width: 100%;
-  &__result {
-    width: 50%;
-  }
-  &__favorites {
+  justify-content: center;
+  text-align: center;
+  color: white;
+  margin: 50px;
+  gap: 20px;
+}
+
+.cards {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 20px;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 10px solid bisque;
+  &__ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 }
