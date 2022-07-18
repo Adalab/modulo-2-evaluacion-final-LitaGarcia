@@ -13,20 +13,30 @@ const ulFavs = document.querySelector('.js-ulFavs');
 let animeList = [];
 let favoriteAnimeList = [];
 // Search Animes and render them
+const isAlreadyFav = (animeId) => {
+  const favoriteFound = favoriteAnimeList.findIndex(
+    (favAnime) => favAnime.mal_id === animeId
+  );
+  return favoriteFound !== -1;
+};
 
 const createAnimeCardHtml = (animeTitle, animeId, imageUrl) => {
-  let animeHtml = `<li class='cards'><div class='js-card' id='${animeId}' style="cursor:pointer"><img src='${imageUrl}' alt='Portada del anime que has buscado' title='Anime Image'/>`;
+  let animeHtml = '';
+  if (isAlreadyFav(animeId)) {
+    animeHtml = `<li class='cards'><div class='js-card isAlreadyToFav' id='${animeId}' style="cursor:pointer"><img src='${imageUrl}' alt='Portada del anime que has buscado' title='Anime Image'/>`;
+  } else {
+    animeHtml = `<li class='cards'><div class='js-card' id='${animeId}' style="cursor:pointer"><img src='${imageUrl}' alt='Portada del anime que has buscado' title='Anime Image'/>`;
+  }
   animeHtml += `<h2>${animeTitle}`;
   animeHtml += `</div></h2>`;
   return animeHtml;
 };
 
 const createAnimeFavCardHtml = (anime) => {
-  const animeCardHtml = createAnimeCardHtml(
-    anime.title,
-    anime.mal_id,
-    anime.images.jpg.image_url
-  );
+  let animeCardHtml = '';
+  animeCardHtml = `<li class='cards'><div class='js-card' id='${anime.mal_id}' style="cursor:pointer"><img src='${anime.images.jpg.image_url}' alt='Portada del anime que has buscado' title='Anime Image'/>`;
+  animeCardHtml += `<h2>${anime.title}`;
+  animeCardHtml += `</div></h2>`;
   const animeFavCard =
     animeCardHtml +
     `<button style="cursor:pointer" class="js-removeFavs data-id=${anime.mal_id} buttonRemoveOne"></button></li>`;
@@ -54,13 +64,14 @@ const renderAnimes = () => {
   let globalHtml = '';
   animeList.forEach((anime) => (globalHtml += createAnimeHTML(anime)));
   ul.innerHTML = globalHtml;
+  addEventListenerToAnimeCards();
 };
 
 // Select and render favorites
 const addEventListenertoFavs = () => {
   const buttonFavs = document.querySelectorAll('.js-removeFavs');
   buttonFavs.forEach((anime) =>
-    anime.addEventListener('click', removeAnimeFromFav)
+    anime.addEventListener('click', handleRemoveFavorite)
   );
 };
 
@@ -90,17 +101,15 @@ const addAnimeToFav = (animeIdSelected) => {
     favoriteAnimeList.push(animeSelected);
     addToLocalStorage();
     renderFavoriteAnimes();
+  } else {
+    removeAnimeFromFav(animeSelected);
   }
+  renderAnimes();
 };
 
-function removeAnimeFromFav(event) {
-  const buttonSelected = parseInt(event.currentTarget.dataset.id);
-  const buttonFavSelected = favoriteAnimeList.find(
-    (favAnime) => favAnime.mal_id === buttonSelected
-  );
-  favoriteAnimeList.splice(buttonFavSelected, 1);
-  addToLocalStorage();
-  renderFavoriteAnimes();
+function handleRemoveFavorite(event) {
+  const animeId = parseInt(event.currentTarget.dataset.id);
+  removeAnimeFromFav(animeId);
 }
 
 //END
@@ -110,12 +119,22 @@ const handlefavoriteClick = (event) => {
   addAnimeToFav(animeIdSelected);
 };
 
-const addEventListenerToAnimeCards = () => {
+function removeAnimeFromFav(buttonSelected) {
+  const buttonFavSelected = favoriteAnimeList.find(
+    (favAnime) => favAnime.mal_id === buttonSelected
+  );
+  favoriteAnimeList.splice(buttonFavSelected, 1);
+  addToLocalStorage();
+  renderFavoriteAnimes();
+  renderAnimes();
+}
+
+function addEventListenerToAnimeCards() {
   const animeCards = document.querySelectorAll('.js-card');
   animeCards.forEach((anime) =>
     anime.addEventListener('click', handlefavoriteClick)
   );
-};
+}
 
 // END Select and render favorites
 
@@ -125,7 +144,6 @@ const getAnimeDataByTitle = (titleValue) => {
     .then((dataAnime) => {
       animeList = dataAnime.data;
       renderAnimes();
-      addEventListenerToAnimeCards();
     });
 };
 
