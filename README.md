@@ -1,4 +1,4 @@
-# Best Anime Searcher Ever
+# :cherry_blossom:	 Best Anime Searcher Ever :cherry_blossom:	
 
 In this repo you will see a basic search of Animes made with Js.
 
