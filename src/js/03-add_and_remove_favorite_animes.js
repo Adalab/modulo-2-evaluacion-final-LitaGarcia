@@ -35,7 +35,7 @@ function addAnimeToFav(animeIdSelected) {
 }
 
 function removeAnimeFromFav(buttonSelected) {
-  const buttonFavSelected = favoriteAnimeList.find(
+  const buttonFavSelected = favoriteAnimeList.findIndex(
     (favAnime) => favAnime.mal_id === buttonSelected
   );
   favoriteAnimeList.splice(buttonFavSelected, 1);
