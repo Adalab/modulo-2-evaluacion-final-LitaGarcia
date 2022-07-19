@@ -35,6 +35,7 @@ const createAnimeCardHtml = (animeTitle, animeId, imageUrl) => {
 
 const createAnimeFavCardHtml = (anime) => {
   let animeCardHtml = '';
+
   animeCardHtml = `<li class='cards'><div class='js-card' id='${anime.mal_id}' style="cursor:pointer"><img src='${anime.images.jpg.image_url}' alt='Portada del anime que has buscado' title='Anime Image'/>`;
   animeCardHtml += `<h2>${anime.title}`;
   animeCardHtml += `</div></h2>`;
@@ -47,16 +48,7 @@ const createAnimeFavCardHtml = (anime) => {
 const createAnimeHTML = (anime) => {
   let animeHtml = '';
   const animeImageUrl = anime.images.jpg.image_url;
-  const isImageDefault = animeImageUrl.includes(defaultImg);
-  if (isImageDefault) {
-    animeHtml += createAnimeCardHtml(
-      anime.title,
-      anime.mal_id,
-      customizedDefaultImg
-    );
-  } else {
-    animeHtml += createAnimeCardHtml(anime.title, anime.mal_id, animeImageUrl);
-  }
+  animeHtml += createAnimeCardHtml(anime.title, anime.mal_id, animeImageUrl);
   animeHtml + `</li>`;
   return animeHtml;
 };
