@@ -9,6 +9,7 @@ const defaultImg =
 const customizedDefaultImg =
   'https://via.placeholder.com/210x295/ffffff/666666/?text=TV';
 const ulFavs = document.querySelector('.js-ulFavs');
+const sectionFavorites = document.querySelector('.js-sectionFavorites');
 
 let animeList = [];
 let favoriteAnimeList = [];
@@ -142,6 +143,7 @@ const createNewElement = () => {
   const text = document.createTextNode(
     'No se ha encontrado ningún anime con ese nombre :('
   );
+  sectionFavorites.appendChild(parragraphElement);
   parragraphElement.appendChild(text);
 };
 
