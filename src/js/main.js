@@ -9,7 +9,6 @@ const defaultImg =
 const customizedDefaultImg =
   'https://via.placeholder.com/210x295/ffffff/666666/?text=TV';
 const ulFavs = document.querySelector('.js-ulFavs');
-const sectionFavorites = document.querySelector('.js-sectionFavorites');
 
 let animeList = [];
 let favoriteAnimeList = [];
@@ -138,14 +137,33 @@ function addEventListenerToAnimeCards() {
 }
 
 // END Select and render favorites
+const sectionResults = document.querySelector('.js-sectionResults');
+
 const createNewElement = () => {
   const parragraphElement = document.createElement('p');
   const text = document.createTextNode(
     'No se ha encontrado ningún anime con ese nombre :('
   );
-  sectionFavorites.appendChild(parragraphElement);
+  parragraphElement.classList.add('js-parragraphElement');
+  sectionResults.appendChild(parragraphElement);
   parragraphElement.appendChild(text);
+  parragraphElement.style.fontSize = '24px';
 };
+
+const deleteNewElement = () => {
+  const parragraphElement = document.querySelector('.js-parragraphElement');
+  sectionResults.removeChild(parragraphElement);
+};
+
+//clean Results
+const resetButton = document.querySelector('.js-resetButton');
+const handleClickReset = (event) => {
+  event.preventDefault();
+  animeList = [];
+  renderAnimes();
+  deleteNewElement();
+};
+resetButton.addEventListener('click', handleClickReset);
 
 const getAnimeDataByTitle = (titleValue) => {
   fetch(`${SERVER_URL}${titleValue}`)
@@ -159,13 +177,13 @@ const getAnimeDataByTitle = (titleValue) => {
     });
 };
 
-const handleClick = (event) => {
+const handleClickSearch = (event) => {
   event.preventDefault();
   const titleValue = inputTitle.value;
   getAnimeDataByTitle(titleValue);
 };
 
-searchButton.addEventListener('click', handleClick);
+searchButton.addEventListener('click', handleClickSearch);
 
 // Get LS
 
@@ -179,19 +197,12 @@ const getLocalStorage = () => {
 
 getLocalStorage();
 
-//clean Results
-const resetButton = document.querySelector('.js-resetButton');
-const handleClickReset = () => {
-  animeList = [];
-  renderAnimes();
-};
-resetButton.addEventListener('click', handleClickReset);
-
 // Reset ALL Favs
 
 const resetFavsButton = document.querySelector('.js-resetFavs');
 
-const handleClickResetFavs = () => {
+const handleClickResetFavs = (event) => {
+  event.preventDefault();
   favoriteAnimeList = [];
   addToLocalStorage();
   renderFavoriteAnimes();

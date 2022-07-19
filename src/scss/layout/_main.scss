@@ -6,6 +6,13 @@
   color: white;
   margin: 50px;
   gap: 20px;
+
+  &__result {
+    border: 10px solid bisque;
+  }
+  &__favorites {
+    border: 10px solid bisque;
+  }
 }
 
 .cards {
@@ -21,7 +28,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 10px solid bisque;
+
   &__ul {
     display: flex;
     flex-direction: column;
